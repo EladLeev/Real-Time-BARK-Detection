@@ -13,14 +13,14 @@ from plot import Plotter
 if __name__ == "__main__":
 
     ################### SETTINGS ###################
-    plt_classes = [0,132,420,494] # Speech, Music, Explosion, Silence 
+    plt_classes = [70] # detect bark only
     class_labels=True
     FORMAT = pyaudio.paFloat32
     CHANNELS = 1
     RATE = params.SAMPLE_RATE
     WIN_SIZE_SEC = 0.975
     CHUNK = int(WIN_SIZE_SEC * RATE)
-    RECORD_SECONDS = 500
+    RECORD_SECONDS = 36000
 
     print(sd.query_devices())
     MIC = None

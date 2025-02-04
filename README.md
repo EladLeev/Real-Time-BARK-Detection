@@ -1,83 +1,57 @@
-# Real-Time Sound Event Detection
+# Real Time Dog Bark Detection
 
-This repository contains the python implementation of a Sound Event Detection system working in real time. 
+A fork of [robertanto/Real-Time-Sound-Event-Detection](https://github.com/robertanto/Real-Time-Sound-Event-Detection), modified to detect Dog barks, plus some extra fancy features like:
 
-<img src="./demo.png" style="max-width:600px; width:100%">
+* Get a Telegram notifications when a bark is detected.
+* Cool-down period between barks to avoid channel spam.
+* Local log of the detected barks.
+* An option to play a calm down sounds, when bark is detected.
 
-## Getting started
+This project was forked and modified to deal with dog separation anxiety, and should use caution. **This is not a replacement for a certified dog trainer**.
 
-Execute the following commands to setup you project.
+## Usage
 
-```bash 
-git clone https://github.com/robertanto/Real-Time-Sound-Event-Detection.git
-cd Real-Time-Sound-Event-Detection
-pip3 install -r requirements.txt
+Start by creating your own [Telegram bot](https://www.directual.com/lesson-library/how-to-create-a-telegram-bot).  
+Once the channel is ready, to use the tool simply set up the `TELEGRAM_TOKEN` and `CHAT_ID` environment variables, or preferably use `.env` file.  
+To play an audio clip when bark is detected, use the `AUDIO_FILE_PATH` to set the file location, and set `PLAY_AUDIO` to `true`.
+
+### Use in venv
+
+Create a virtual environment with all the dependencies using:
+
+```bash
+python -m venv venv
+pip install -r requirements.txt
 ```
 
-At this point you have only to execute the demo by running the following command:
+Run the tool:
 
-```bash 
+```bash
+TELEGRAM_TOKEN=<TOKEN>
+CHAT_ID=<CHAT_ID>
+AUDIO_FILE_PATH=<PATH>
+PLAY_AUDIO=true
+
 python3 ./sound_event_detection.py
 ```
 
-### Change the classes to detect
+## Privacy & Legal Considerations
 
-To modify the classes to visualize in the plot, change the event's ids in the file `sound_event_detection.py` at the line 16:
+### Audio Recording Notices
 
-```python
-plt_classes = [0,132,420,494] # Speech, Music, Explosion, Silence 
-```
+* This tool continuously records audio from your microphone to detect dog barks.
+* Audio is processed locally and in real-time - no audio data is stored or transmitted except for timestamps of detected barks.
+* Be mindful of your jurisdiction's laws regarding audio recording, especially if using this in shared spaces or where others may be recorded.
 
-You can find the full list of 521 audio events in `keras_yamnet\yamnet_class_map.csv`. It follows the list of the first 50 audio events:
+### Responsible Use
 
-    0, Speech
-    1, Child speech, kid speaking
-    2, Conversation
-    3, Narration, monologue
-    4, Babbling
-    5, Speech synthesizer
-    6, Shout
-    7, Bellow
-    8, Whoop
-    9, Yell
-    10, Children shouting
-    11, Screaming
-    12, Whispering
-    13, Laughter
-    14, Baby laughter
-    15, Giggle
-    16, Snicker
-    17, Belly laugh
-    18, Chuckle, chortle
-    19, Crying, sobbing
-    20, Baby cry, infant cry
-    21, Whimper
-    22, Wail, moan
-    23, Sigh
-    24, Singing
-    25, Choir
-    26, Yodeling
-    27, Chant
-    28, Mantra
-    29, Child singing
-    30, Synthetic singing
-    31, Rapping
-    32, Humming
-    33, Groan
-    34, Grunt
-    35, Whistling
-    36, Breathing
-    37, Wheeze
-    38, Snoring
-    39, Gasp
-    40, Pant
-    41, Snort
-    42, Cough
-    43, Throat clearing
-    44, Sneeze
-    45, Sniff
-    46, Run
-    47, Shuffle
-    48, Walk, footsteps
-    49, Chewing, mastication
-    50, Biting
+* This tool is intended for monitoring your own dogs with their wellbeing in mind.
+* Do not use this tool to record conversations or for surveillance purposes.
+* Inform household members and visitors that audio monitoring is in use.
+* Consider posting notices if used in shared spaces.
+
+### Data Collection
+
+* Only bark detection timestamps are logged locally
+* Telegram notifications contain only detection time and event type
+* No audio samples are saved or transmitted

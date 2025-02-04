@@ -35,41 +35,39 @@ def _batch_norm(name):
 
 def _conv(name, kernel, stride, filters):
     def _conv_layer(layer_input):
-        output = layers.Conv2D(name='{}/conv'.format(name),
+        output = layers.Conv2D(name=f'{name}_conv',
                                filters=filters,
                                kernel_size=kernel,
                                strides=stride,
                                padding=params.CONV_PADDING,
                                use_bias=False,
                                activation=None)(layer_input)
-        output = _batch_norm(name='{}/conv/bn'.format(name))(output)
-        output = layers.ReLU(name='{}/relu'.format(name))(output)
+        output = _batch_norm(name=f'{name}_conv_bn')(output)
+        output = layers.ReLU(name=f'{name}_relu')(output)
         return output
     return _conv_layer
 
 
 def _separable_conv(name, kernel, stride, filters):
     def _separable_conv_layer(layer_input):
-        output = layers.DepthwiseConv2D(name='{}/depthwise_conv'.format(name),
+        output = layers.DepthwiseConv2D(name=f'{name}_depthwise_conv',
                                         kernel_size=kernel,
                                         strides=stride,
                                         depth_multiplier=1,
                                         padding=params.CONV_PADDING,
                                         use_bias=False,
                                         activation=None)(layer_input)
-        output = _batch_norm(name='{}/depthwise_conv/bn'.format(name))(output)
-        output = layers.ReLU(
-            name='{}/depthwise_conv/relu'.format(name))(output)
-        output = layers.Conv2D(name='{}/pointwise_conv'.format(name),
+        output = _batch_norm(name=f'{name}_depthwise_conv_bn')(output)
+        output = layers.ReLU(name=f'{name}_depthwise_conv_relu')(output)
+        output = layers.Conv2D(name=f'{name}_pointwise_conv',
                                filters=filters,
                                kernel_size=(1, 1),
                                strides=1,
                                padding=params.CONV_PADDING,
                                use_bias=False,
                                activation=None)(output)
-        output = _batch_norm(name='{}/pointwise_conv/bn'.format(name))(output)
-        output = layers.ReLU(
-            name='{}/pointwise_conv/relu'.format(name))(output)
+        output = _batch_norm(name=f'{name}_pointwise_conv_bn')(output)
+        output = layers.ReLU(name=f'{name}_pointwise_conv_relu')(output)
         return output
     return _separable_conv_layer
 
@@ -112,7 +110,7 @@ def YAMNet(
     net = layers.Reshape(input_shape+(1,))(input_tensor)
 
     for (i, (layer_fun, kernel, stride, filters)) in enumerate(_YAMNET_LAYER_DEFS):
-        net = layer_fun('layer{}'.format(i + 1), kernel, stride, filters)(net)
+        net = layer_fun(f'layer{i + 1}', kernel, stride, filters)(net)
 
     if include_top:
         if weights is not None and classes != params.NUM_CLASSES:
